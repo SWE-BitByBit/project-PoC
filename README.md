@@ -3,10 +3,12 @@
 ## Setup 
 
 1. Installare Flutter seguendo la **guida ufficile**
+
 https://docs.flutter.dev/install/quick
-2. Eseguire il **setup del development environment** per eseguire, compilazione e il deploy su Android
+3. Eseguire il **setup del development environment** per eseguire, compilazione e il deploy su Android
+
 https://docs.flutter.dev/platform-integration/android/setup
-3. **Verifica** dell'ambiente
+4. **Verifica** dell'ambiente
 ```sh
 flutter doctor
 ```
