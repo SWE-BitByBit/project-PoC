@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'chatbot.dart';
 import 'chatbot_text_input.dart';
 import 'chat_message.dart';
+import 'chatbot_drawer.dart';
 import 'message_bubble.dart';
 
 
@@ -39,6 +40,7 @@ class _ChatbotPageState extends State<ChatbotPage> {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Chatbot')),
+      drawer: ChatbotDrawer(),
       body: Column(
         children: [
           Expanded(
@@ -57,7 +59,8 @@ class _ChatbotPageState extends State<ChatbotPage> {
               sendMessage(inputController.text);
             },
             hintText: "Scrivi un messaggio...",
-          )
+          ),
+
         ],
       ),
     );
