@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'auth/auth_page.dart';
 import 'chatbot/chatbot_page.dart';
 
 void main() {
@@ -30,14 +31,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,14 +42,6 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: .center,
           children: [
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-
-            const SizedBox(height: 20),
-
             ElevatedButton(
               child: const Text("Vai al Chatbot"),
               onPressed: () {
@@ -69,13 +54,20 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
 
+            ElevatedButton(
+              child: const Text("Vai all'autenticazione"),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AuthenticationPage(),
+                  )
+                );
+              },
+            )
+
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
