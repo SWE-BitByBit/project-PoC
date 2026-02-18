@@ -20,19 +20,6 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
     super.dispose();
   }
 
-  Future<void> _defaultLogin() async {
-    if (_formKey.currentState!.validate()) {
-      final auth = AuthenticationService.instance;
-      final user = await auth.loginWithEmailAndPassword(
-        _emailController.text,
-        _passwordController.text,
-      );
-      if (user != null && mounted) {
-        // Utente autenticato con email / password
-      }
-    }
-  }
-
   Future<void> _googleLogin() async {
     if (_formKey.currentState!.validate()) {
       final auth = AuthenticationService.instance;
@@ -59,14 +46,6 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                 children: [
                   const _Header(),
                   const SizedBox(height: 32),
-                  _EmailField(controller: _emailController),
-                  const SizedBox(height: 16),
-                  _PasswordField(controller: _passwordController),
-                  const SizedBox(height: 24),
-                  _LoginButton(onPressedCallback: _defaultLogin),
-                  const SizedBox(height: 24),
-                  const _DividerWithText(),
-                  const SizedBox(height: 24),
                   _GoogleLoginButton(onPressedCallback: _googleLogin),
                 ],
               ),
@@ -77,7 +56,6 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
     );
   }
 }
-
 
 // Icona lucchetto con titolo pagina
 class _Header extends StatelessWidget {
@@ -96,92 +74,6 @@ class _Header extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-      ],
-    );
-  }
-}
-
-class _EmailField extends StatelessWidget {
-  final TextEditingController controller;
-  const _EmailField({required this.controller});
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      keyboardType: TextInputType.emailAddress,
-      controller: controller,
-      decoration: const InputDecoration(
-        labelText: 'Email',
-        prefixIcon: Icon(Icons.email_outlined),
-        border: OutlineInputBorder(),
-      ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Inserisci un\'email';
-        }
-        return null;
-      },
-    );
-  }
-}
-
-class _PasswordField extends StatelessWidget {
-  final TextEditingController controller;
-  const _PasswordField({required this.controller});
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      obscureText: true,
-      decoration: const InputDecoration(
-        labelText: 'Password',
-        prefixIcon: Icon(Icons.lock_outline),
-        border: OutlineInputBorder(),
-      ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Inserisci una password';
-        }
-        return null;
-      },
-    );
-  }
-}
-
-class _LoginButton extends StatelessWidget {
-  final VoidCallback onPressedCallback;
-  const _LoginButton({required this.onPressedCallback});
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressedCallback,
-      style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(vertical: 14),
-      ),
-      child: const Text(
-        'Login',
-        style: TextStyle(fontSize: 16),
-      ),
-    );
-  }
-}
-
-// Divisore tra login normale e login Google
-class _DividerWithText extends StatelessWidget {
-  const _DividerWithText();
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: const [
-        Expanded(child: Divider()),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12),
-          child: Text('oppure'),
-        ),
-        Expanded(child: Divider()),
       ],
     );
   }
