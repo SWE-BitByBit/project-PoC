@@ -19,13 +19,7 @@ class EmergencyPage extends StatelessWidget {
               child: Icon(Icons.contact_phone),
             ),
             title: Text(contact.name),
-            subtitle: Text(contact.phone),
-            trailing: IconButton(
-              icon: const Icon(Icons.call, color: Colors.green),
-              onPressed: () {
-                print('Chiama: ${contact.phone}');
-              },
-            ),
+            subtitle: Text('${contact.phone} - ${contact.email}'),
           );
         },
       ),
