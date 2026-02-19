@@ -20,6 +20,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
     super.dispose();
   }
 
+  /* non abbiamo un login con email/password, quindi questa funzione è commentata per ora
   Future<void> _defaultLogin() async {
     if (_formKey.currentState!.validate()) {
       final auth = AuthenticationService.instance;
@@ -32,6 +33,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
       }
     }
   }
+  */
 
   Future<void> _googleLogin() async {
     if (_formKey.currentState!.validate()) {
@@ -56,18 +58,29 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
+                /*children: [
                   const _Header(),
                   const SizedBox(height: 32),
                   _EmailField(controller: _emailController),
                   const SizedBox(height: 16),
                   _PasswordField(controller: _passwordController),
-                  const SizedBox(height: 24),
-                  _LoginButton(onPressedCallback: _defaultLogin),
+                  //const SizedBox(height: 24),
+                  //_LoginButton(onPressedCallback: _defaultLogin),
                   const SizedBox(height: 24),
                   const _DividerWithText(),
                   const SizedBox(height: 24),
                   _GoogleLoginButton(onPressedCallback: _googleLogin),
+                ],*/
+                children: [
+                  const _Header(),
+                  const SizedBox(height: 48),
+                  _GoogleLoginButton(onPressedCallback: _googleLogin),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'L\'accesso è consentito solo tramite account Google ufficiale.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.grey, fontSize: 12),
+                  ),
                 ],
               ),
             ),
@@ -195,10 +208,14 @@ class _GoogleLoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return OutlinedButton.icon(
       onPressed: onPressedCallback,
-      icon: const Icon(Icons.login),
+      icon: Image.asset(
+        'assets/google_logo.jpg',
+        height: 24,
+      ),
       label: const Text('Accedi con Google'),
       style: OutlinedButton.styleFrom(
         padding: const EdgeInsets.symmetric(vertical: 14),
+        side: const BorderSide(color: Colors.grey),
       ),
     );
   }
