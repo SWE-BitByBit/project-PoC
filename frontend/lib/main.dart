@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/emergency/emergency_page.dart';
 import 'auth/auth_page.dart';
 import 'chatbot/chatbot_page.dart';
 
@@ -61,6 +62,18 @@ class _MyHomePageState extends State<MyHomePage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => const AuthenticationPage(),
+                  )
+                );
+              },
+            ),
+            
+            ElevatedButton(
+              child: const Text("Vai ai contatti di emergenza"),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const EmergencyPage(),
                   )
                 );
               },
