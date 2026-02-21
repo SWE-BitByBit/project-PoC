@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'auth/auth_page.dart';
-import 'chatbot/chatbot_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -42,24 +41,6 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: .center,
           children: [
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.lightGreen,
-                foregroundColor: Colors.white,
-              ),
-              child: const Text("Vai al Chatbot"),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ChatbotPage(),
-                  )
-                );
-              },
-            ),
-
-            SizedBox(height: 20),
-
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
