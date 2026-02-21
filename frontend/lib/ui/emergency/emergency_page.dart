@@ -1,8 +1,12 @@
 import 'contact.dart';
 import 'package:flutter/material.dart';
 
+import '../emergency/view_model/view_model_trusted_contacts.dart';
+
 class EmergencyPage extends StatelessWidget {
-  const EmergencyPage({super.key});
+  const EmergencyPage({super.key, required this.viewModel});
+
+  final ViewModelTrustedContacts viewModel;
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +15,7 @@ class EmergencyPage extends StatelessWidget {
         title: const Text('Contatti fidati'),
       ),
       body: ListView.builder(
-        itemCount: emergencyContacts.length,
+        itemCount: viewModel.trustedContact.lenght;
         itemBuilder: (context, index) {
           final contact = emergencyContacts[index];
           return ListTile(

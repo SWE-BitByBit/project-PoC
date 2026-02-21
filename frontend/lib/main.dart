@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/emergency/emergency_page.dart';
+import 'package:flutter_application_1/ui/emergency/emergency_page.dart';
 import 'auth/auth_page.dart';
 
 void main() {
