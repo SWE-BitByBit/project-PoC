@@ -1,4 +1,4 @@
-import 'package:flutter_application_1/domain/trusted_contact.dart';
+import '../../domain/trusted_contact.dart';
 
 class TrustedContactModel extends TrustedContact {
   const TrustedContactModel({

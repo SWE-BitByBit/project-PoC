@@ -1,5 +1,5 @@
-import 'package:flutter_application_1/domain/trusted_contact.dart';
-import 'package:flutter_application_1/data/services/trusted_contact_api.dart';
+import '../../domain/trusted_contact.dart';
+import '../../data/services/trusted_contact_api.dart';
 
 class TrustedContactRepository {
   final TrustedContactApi _api;

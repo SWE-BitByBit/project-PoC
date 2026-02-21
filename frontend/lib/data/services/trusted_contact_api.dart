@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import 'package:flutter_application_1/data/model/trusted_contact_model.dart';
+import '../../data/model/trusted_contact_model.dart';
 
 class TrustedContactApi {
 
