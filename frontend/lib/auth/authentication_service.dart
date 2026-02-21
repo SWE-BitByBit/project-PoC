@@ -1,49 +1,14 @@
 import 'dart:convert';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:http/http.dart' as http;
-import 'package:url_launcher/url_launcher.dart';
-
-/// Rappresenta un utente autenticato
-class User {
-  final String username;
-  final String email;
-  final String idToken;
-  final String accessToken;
-  final String? refreshToken;
-
-  User({
-    required this.username,
-    required this.email,
-    required this.idToken,
-    required this.accessToken,
-    this.refreshToken,
-  });
-
-  factory User.fromIdToken(String idToken, String accessToken, [String? refreshToken]) {
-    // Decodifica payload JWT (base64 url)
-    final parts = idToken.split('.');
-    if (parts.length != 3) throw Exception('ID token non valido');
-
-    final payload = base64Url.normalize(parts[1]);
-    final decoded = utf8.decode(base64Url.decode(payload));
-    final data = jsonDecode(decoded);
-
-    return User(
-      username: data['cognito:username'] ?? data['sub'] ?? '',
-      email: data['email'] ?? '',
-      idToken: idToken,
-      accessToken: accessToken,
-      refreshToken: refreshToken,
-    );
-  }
-}
+import 'user.dart';
 
 class AuthenticationService {
   static final AuthenticationService _instance = AuthenticationService._internal();
   static AuthenticationService get instance => _instance;
 
   User? _currentUser;
-  User? get currentUser => _currentUser;
+  User? getCurrentUser() => _currentUser;
 
   final String _cognitoDomain = 'eu-north-1vf1mmfpoo.auth.eu-north-1.amazoncognito.com';
   final String _clientId = '5dlcoa478c3uve9bctpopae4kl';
@@ -53,7 +18,7 @@ class AuthenticationService {
 
   AuthenticationService._internal();
 
-  /// Login Google tramite Cognito Hosted UI
+  // Login Google tramite Cognito
   Future<User?> loginWithGoogle() async {
     try {
       final authUrl = Uri.https(_cognitoDomain, '/oauth2/authorize', {
@@ -73,7 +38,6 @@ class AuthenticationService {
       
       final code = Uri.parse(result).queryParameters['code'];
       if (code == null) throw Exception('Authorization code mancante');
-      print(code);
 
       final basicAuth = base64Encode(
         utf8.encode('$_clientId:$_clientSecret'),
@@ -112,7 +76,7 @@ class AuthenticationService {
       return user;
 
     } catch (e) {
-      print('Errore login: $e');
+      print('Errore di login: $e');
       return null;
     }
   }
@@ -129,8 +93,12 @@ class AuthenticationService {
         url: url.toString(),
         callbackUrlScheme: "com.bitbybit.appcheproteggeetrasforma",
       );
-    } catch (_) {
-      // Ignora errori logout browser
+    } catch (e) {
+      print('Errore di logout: $e');
     }
+  }
+
+  bool isUserLoggedIn() {
+    return _currentUser != null && _currentUser!.sub != null;
   }
 }

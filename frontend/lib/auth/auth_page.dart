@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'authentication_service.dart';
+import 'user.dart';
 
 class AuthenticationPage extends StatefulWidget {
   const AuthenticationPage({super.key});
@@ -12,6 +13,13 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  User? _authenticatedUser;
+
+  @override
+  void initState() {
+    super.initState();
+    _authenticatedUser = AuthenticationService.instance.getCurrentUser();
+  }
 
   @override
   void dispose() {
@@ -20,12 +28,14 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
     super.dispose();
   }
 
-  Future<void> _googleLogin() async {
+  Future<void> _handleLogin() async {
     if (_formKey.currentState!.validate()) {
       final auth = AuthenticationService.instance;
       final user = await auth.loginWithGoogle();
       if (user != null && mounted) {
-        // Utente autenticato con Google
+        setState(() {
+          _authenticatedUser = user;
+        });
       }
     }
   }
@@ -46,13 +56,24 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                 children: [
                   const _Header(),
                   const SizedBox(height: 48),
-                  _GoogleLoginButton(onPressedCallback: _googleLogin),
+                  _GoogleLoginButton(onPressedCallback: _handleLogin),
                   const SizedBox(height: 16),
                   const Text(
                     'L\'accesso è consentito solo tramite account Google ufficiale.',
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.grey, fontSize: 12),
                   ),
+                  if (_authenticatedUser != null) ...[
+                    const SizedBox(height: 24),
+                    Text(
+                      'Sei autenticato con l\'indirizzo ${_authenticatedUser!.email}',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        color: Colors.green,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),
