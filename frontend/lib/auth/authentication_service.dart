@@ -48,7 +48,7 @@ class AuthenticationService {
   final String _cognitoDomain = 'eu-north-1vf1mmfpoo.auth.eu-north-1.amazoncognito.com';
   final String _clientId = '5dlcoa478c3uve9bctpopae4kl';
   final String _clientSecret = '1cdda1dn6k8900h56bs6eimdbf7kbsk99sgdl7oltsf11klondnq';
-  final String _redirectUri = 'app://callback';
+  final String _redirectUri = 'com.bitbybit.appcheproteggeetrasforma://callback';
   final List<String> _scopes = ['profile', 'email', 'openid'];
 
   AuthenticationService._internal();
@@ -68,11 +68,12 @@ class AuthenticationService {
 
       final result = await FlutterWebAuth2.authenticate(
         url: authUrl.toString(),
-        callbackUrlScheme: "app",
+        callbackUrlScheme: "com.bitbybit.appcheproteggeetrasforma",
       );
       
       final code = Uri.parse(result).queryParameters['code'];
       if (code == null) throw Exception('Authorization code mancante');
+      print(code);
 
       final basicAuth = base64Encode(
         utf8.encode('$_clientId:$_clientSecret'),
@@ -126,7 +127,7 @@ class AuthenticationService {
     try {
       await FlutterWebAuth2.authenticate(
         url: url.toString(),
-        callbackUrlScheme: "app",
+        callbackUrlScheme: "com.bitbybit.appcheproteggeetrasforma",
       );
     } catch (_) {
       // Ignora errori logout browser
