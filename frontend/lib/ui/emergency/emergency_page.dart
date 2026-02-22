@@ -1,4 +1,3 @@
-import 'contact.dart';
 import 'package:flutter/material.dart';
 
 import '../emergency/view_model/view_model_trusted_contacts.dart';
@@ -14,19 +13,26 @@ class EmergencyPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Contatti fidati'),
       ),
-      body: ListView.builder(
-        itemCount: viewModel.trustedContact.lenght;
-        itemBuilder: (context, index) {
-          final contact = emergencyContacts[index];
-          return ListTile(
-            leading: const CircleAvatar(
-              child: Icon(Icons.contact_phone),
-            ),
-            title: Text(contact.name),
-            subtitle: Text('${contact.phone} - ${contact.email}'),
+      body: ListenableBuilder(
+        listenable: viewModel,
+        builder: (context, _) {
+          return ListView.builder(
+            itemCount: viewModel.trustedContact.length,
+            itemBuilder: (context, index) {
+              final contact = viewModel.trustedContact[index];
+
+              return ListTile(
+                leading: const CircleAvatar(
+                  child: Icon(Icons.contact_phone),
+                ),
+                title: Text(contact.name),
+                subtitle:
+                    Text(contact.email),
+              );
+            },
           );
         },
-      ),
+      )
     );
   }
 }
