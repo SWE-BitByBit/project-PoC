@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/diary/note_page.dart';
 import 'package:flutter_application_1/emergency/emergency_page.dart';
 import 'auth/auth_page.dart';
 
@@ -69,6 +70,22 @@ class _MyHomePageState extends State<MyHomePage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => const EmergencyPage(),
+                  )
+                );
+              },
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 177, 255, 135),
+                foregroundColor: const Color.fromARGB(255, 0, 0, 0),
+              ),
+              child: const Text("Vai alle note"),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const NotesPage(),
                   )
                 );
               },
