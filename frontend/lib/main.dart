@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'config/dependencies.dart';
 
 import 'chatbot/chatbot_page.dart';
-import 'ui/emergency/emergency_page.dart';
+import 'ui/trusted_contacts/emergency_page.dart';
 import 'auth/auth_page.dart';
-import 'ui/emergency/view_model/view_model_trusted_contacts.dart';
+import 'ui/trusted_contacts/view_model/view_model_trusted_contacts.dart';
 
 void main() {
   runApp(

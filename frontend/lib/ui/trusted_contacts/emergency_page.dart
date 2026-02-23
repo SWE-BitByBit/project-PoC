@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../emergency/view_model/view_model_trusted_contacts.dart';
+import 'view_model/view_model_trusted_contacts.dart';
 
 class EmergencyPage extends StatelessWidget {
   const EmergencyPage({super.key, required this.viewModel});

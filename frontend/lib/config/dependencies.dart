@@ -3,7 +3,7 @@ import 'package:provider/single_child_widget.dart';
 
 import '../data/services/trusted_contact_api.dart';
 import '../data/repositories/trusted_contact_repository.dart';
-import '../ui/emergency/view_model/view_model_trusted_contacts.dart';
+import '../ui/trusted_contacts/view_model/view_model_trusted_contacts.dart';
 
 List<SingleChildWidget> appProviders = [
   Provider(
