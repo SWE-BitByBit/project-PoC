@@ -16,13 +16,13 @@ class AwsDynamoApi:
     def add_contact(self, event):
         body = json.loads(event["body"])
         contact_id = str(uuid4())
-        name = body["name"]
-        email = body["email"]
+        contact_name = body["name"]
+        contact_email = body["email"]
         contact = {
-            "user_email": event["requestContext"]["authorizer"]["claims"]["email"],
-            "id": contact_id,
-            "name": name,
-            "email": email
+            "user_id": event["requestContext"]["authorizer"]["jwt"]["claims"]["sub"],
+            "contact_id": contact_id,
+            "name": contact_name,
+            "email": contact_email
         }
 
         self.table.put_item(Item=contact)
@@ -30,8 +30,8 @@ class AwsDynamoApi:
             201,
             {
                 "id": contact_id,
-                "name": name,
-                "email": email
+                "name": contact_name,
+                "email": contact_email
             }
         )
 
@@ -40,8 +40,8 @@ class AwsDynamoApi:
 
         response = self.table.get_item(
             Key={
-                "user_email": event["requestContext"]["authorizer"]["claims"]["email"],
-                "id": contact_id
+                "user_id": event["requestContext"]["authorizer"]["jwt"]["claims"]["sub"],
+                "contact_id": contact_id
             }
         )
         item = response.get("Item")
@@ -55,8 +55,8 @@ class AwsDynamoApi:
         try:
             response = self.table.get_item(
                 Key={
-                    "user_email": event["requestContext"]["authorizer"]["claims"]["email"],
-                    "id": contact_id
+                    "user_id": event["requestContext"]["authorizer"]["jwt"]["claims"]["sub"],
+                    "contact_id": contact_id
                 }
             )
             
@@ -65,7 +65,7 @@ class AwsDynamoApi:
                 raise KeyError("Item not found")
             
             self.table.delete_item(
-                Key={"user_email": event["requestContext"]["authorizer"]["claims"]["email"], "contact_id": contact_id}
+                Key={"user_id": event["requestContext"]["authorizer"]["jwt"]["claims"]["sub"], "contact_id": contact_id}
             )
             return self.response(200, {"msg": "Deleted"})
         
@@ -74,6 +74,7 @@ class AwsDynamoApi:
     
     def list_contacts(self, event):
         response = self.table.query(
-            KeyConditionExpression=Key("user_email").eq(event["requestContext"]["authorizer"]["claims"]["email"])
+            KeyConditionExpression=Key("user_id").eq(event["requestContext"]["authorizer"]["jwt"]["claims"]["sub"])
         )
+
         return self.response(200, response["Items"])
