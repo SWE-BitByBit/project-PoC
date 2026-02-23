@@ -16,6 +16,7 @@ class TrustedContactApi {
 
     if (user == null) throw Exception("Utente non autenticato");
 
+
     final response = await http.get(
         Uri.parse('$baseUrl/contacts'),
         headers: {
@@ -36,7 +37,7 @@ class TrustedContactApi {
 
       return contacts;
     } else {
-      throw Exception('Failed to load album');
+      throw Exception('Failed to load trusted contacts');
     }
   }
 
@@ -65,8 +66,14 @@ class TrustedContactApi {
   }
 
   Future<void> deleteContact(String id) async {
+    final user = AuthenticationService.instance.getCurrentUser();
+    if (user == null) throw Exception("Utente non autenticato");
+
     final response = await http.delete(
-      Uri.parse('$baseUrl/contacts/$id')
+      Uri.parse('$baseUrl/contacts/$id'),
+      headers: {
+        'Authorization': 'Bearer ${user.accessToken}',
+      },
     );
 
     if (response.statusCode != 200) {
