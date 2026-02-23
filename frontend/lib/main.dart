@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'chatbot/chatbot_page.dart';
 import 'package:flutter_application_1/emergency/emergency_page.dart';
 import 'auth/auth_page.dart';
 
@@ -73,6 +74,21 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               },
             ),
+
+            const SizedBox(height: 20),
+
+            ElevatedButton(
+              child: const Text("Vai al Chatbot"),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ChatbotPage(),
+                  )
+                );
+              },
+            ),
+
           ],
         ),
       ),
