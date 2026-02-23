@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'chatbot.dart';
 import 'chatbot_text_input.dart';
 import 'chat_message.dart';
 import 'chatbot_drawer.dart';
+import 'chat.dart';
 import 'message_bubble.dart';
-
+import 'chat_service.dart';
 
 class ChatbotPage extends StatefulWidget {
   const ChatbotPage({Key? key}) : super(key: key);
@@ -15,17 +15,32 @@ class ChatbotPage extends StatefulWidget {
 
 class _ChatbotPageState extends State<ChatbotPage> {
   final TextEditingController inputController = TextEditingController();
-  final List<ChatMessage> messages = [];
-  final Chatbot chatbot = Chatbot();
+  final ChatService chatService = ChatService();
+  Chat? currentChat;
+  List<ChatMessage> messages = [];
 
-  void sendMessage(String userInputText) {
-    if(userInputText.isEmpty) return;
+  @override
+  void initState() {
+    super.initState();
+    _initializeChat();
+  }
 
-    setState(() => messages.add(ChatMessage(text: userInputText, isUser: true)));
+  Future<void> _initializeChat() async {
+    currentChat = await chatService.startNewChat();
+    setState(() {
+      messages = List.from(currentChat!.messages);
+    });
+  }
+
+  Future<void> sendMessage(String userInputText) async {
+    if (userInputText.isEmpty || currentChat == null) return;
+    setState(() {
+      messages.add(ChatMessage(text: userInputText, isUser: true));
+    });
     inputController.clear();
-
-    chatbot.sendUserMessage(userInputText, (String response) {
-      setState(() => messages.add(ChatMessage(text: response, isUser: false)));
+    String response = await chatService.sendMessageToChatbot(currentChat!, userInputText);
+    setState(() {
+      messages.add(ChatMessage(text: response, isUser: false));
     });
   }
 
@@ -37,7 +52,6 @@ class _ChatbotPageState extends State<ChatbotPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(title: const Text('Chatbot')),
       drawer: ChatbotDrawer(),
@@ -50,9 +64,8 @@ class _ChatbotPageState extends State<ChatbotPage> {
               itemBuilder: (context, index) {
                 return MessageBubble(message: messages[index]);
               },
-            )
+            ),
           ),
-
           ChatbotTextInput(
             controller: inputController,
             onSendPressed: () {
@@ -60,7 +73,6 @@ class _ChatbotPageState extends State<ChatbotPage> {
             },
             hintText: "Scrivi un messaggio...",
           ),
-
         ],
       ),
     );
