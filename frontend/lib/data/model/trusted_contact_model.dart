@@ -18,7 +18,7 @@ class TrustedContactModel extends TrustedContact {
         name: name,
         email: email
       ),
-      _ => throw const FormatException('Failed to load truted contact.'), 
+      _ => throw const FormatException('Failed to load contact from json.'), 
     };
   }
 

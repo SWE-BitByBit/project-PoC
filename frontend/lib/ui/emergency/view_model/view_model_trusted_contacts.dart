@@ -20,5 +20,12 @@ class ViewModelTrustedContacts extends ChangeNotifier{
     _trustedContacts = contactResult;
     notifyListeners();
   }
+
+  Future<void> delete(String id) async {
+    await _trustedContactRepository.deleteContact(id);
+    _trustedContacts.removeWhere((booking) => booking.contactId == id);
+    
+    notifyListeners();
+  }
   
 }

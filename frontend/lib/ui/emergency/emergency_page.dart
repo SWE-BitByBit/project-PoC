@@ -26,6 +26,12 @@ class EmergencyPage extends StatelessWidget {
                   child: Icon(Icons.contact_phone),
                 ),
                 title: Text(contact.name),
+                trailing: IconButton.outlined(
+                  onPressed: () => 
+                    viewModel.delete(viewModel.trustedContact[index].contactId),
+                  icon: const Icon(Icons.delete),
+                  color: Colors.red,
+                ),
                 subtitle:
                     Text(contact.email),
               );
