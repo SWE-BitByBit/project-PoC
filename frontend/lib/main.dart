@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'config/dependencies.dart';
 
 import 'chatbot/chatbot_page.dart';
-import 'ui/trusted_contacts/trusted_contacts_page.dart';
-import 'auth/auth_page.dart';
 import 'ui/trusted_contacts/view_model/view_model_trusted_contacts.dart';
+import 'auth/auth_page.dart';
+
+import 'package:flutter_application_1/ui/trusted_contacts/trusted_contacts_page.dart';
 
 void main() {
   runApp(
