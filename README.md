@@ -1,8 +1,8 @@
 # PoC - L’app che Protegge e Trasforma
 
-Proof of Concept per il capitolato C4 - L’app che Protegge e Trasforma - del corso di Ingegneria del Software 2025/2026.
+Proof of Concept per il capitolato C4 - L’ app che Protegge e Trasforma - del corso di Ingegneria del Software 2025/2026.
 
-La documentazione del PoC si può consultare alla Wiki della presente repository.
+La documentazione completa relativa PoC si può consultare alla [Wiki](https://github.com/SWE-BitByBit/project-PoC/wiki) della presente repository.
 
 ## Setup 
 
