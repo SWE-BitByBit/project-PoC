@@ -9,6 +9,6 @@ class ChatMessage {
   }
 
   factory ChatMessage.fromJson(Map<String, dynamic> json) {
-    return ChatMessage(text: json['text'], isUser: json['isUser']);
+    return ChatMessage(text: json['text'], isUser: json['sender'] == 'user');
   }
 }

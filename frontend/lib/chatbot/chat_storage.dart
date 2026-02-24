@@ -2,7 +2,7 @@ import 'chat_api.dart';
 import 'chat.dart';
 class ChatStorage {
   static const String ENDPOINT_API =
-      'https://ihnq91q2lk.execute-api.eu-north-1.amazonaws.com/';
+      'https://ihnq91q2lk.execute-api.eu-north-1.amazonaws.com';
   final ChatApi api = ChatApi(ENDPOINT_API);
 
   Future<Chat> createNewChat() async {
@@ -12,6 +12,10 @@ class ChatStorage {
 
   Future<Chat> loadChatFromId(String chatId) {
     return api.fetchChatContent(chatId);
+  }
+
+  Future<List<Chat>> loadAllChats() {
+    return api.fetchChats();
   }
 
   Future<void> saveChat(Chat chat) async {

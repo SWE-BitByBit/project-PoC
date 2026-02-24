@@ -11,7 +11,7 @@ class Chatbot {
 
   Chatbot();
 
-  Future<String> sendUserMessage(String message) async {
+  Future<String> sendMessage(String message) async {
     Uri uri = Uri(
       scheme: 'http',
       host: ENDPOINT_HOST,
@@ -36,7 +36,6 @@ class Chatbot {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        // Assumiamo che l'endpoint ritorni { "response": "..." }
         return data['response'] ?? '';
       } else {
         return 'Error: ${response.statusCode}';
