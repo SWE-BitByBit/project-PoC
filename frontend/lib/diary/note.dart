@@ -12,7 +12,7 @@ class ImageBlock extends NoteBlock {
 
 class Note {
   final String title;
-  final String date;
+  final DateTime date;
   final List<NoteBlock> blocks;
 
   Note({
@@ -25,7 +25,7 @@ class Note {
 final List<Note> notes = [
   Note(
     title: 'Gita a Roma',
-    date: '2024-06-01',
+    date: DateTime(2024, 6, 1),
     blocks: [
       ImageBlock('https://picsum.photos/seed/roma/400/200'),
       TextBlock('Il Colosseo è stato fantastico.'),
@@ -35,7 +35,7 @@ final List<Note> notes = [
   ),
   Note(
     title: 'Appunti Flutter',
-    date: '2024-06-02',
+    date: DateTime(2024, 6, 2),
     blocks: [
       TextBlock('Pattern Matching con Dart 3.'),
       TextBlock('Le sealed classes sono ottime per il domain layer.'),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'note.dart'; 
 import 'note_page.dart';
+import 'app_network_image.dart';
 
 class NotesPage extends StatelessWidget {
   const NotesPage({super.key});
@@ -37,29 +38,9 @@ class NotesPage extends StatelessWidget {
                 children: [
                   Expanded(
                     child: coverImage != null
-                        ? Image.network(
-                            coverImage.imageUrl,
+                        ? AppNetworkImage(
+                            imageUrl: coverImage.imageUrl,
                             width: double.infinity,
-                            fit: BoxFit.cover,
-                            loadingBuilder: (context, child, loadingProgress) {
-                              if (loadingProgress == null) return child;
-                              return Center(
-                                child: CircularProgressIndicator(
-                                  value: loadingProgress.expectedTotalBytes != null
-                                      ? loadingProgress.cumulativeBytesLoaded /
-                                          loadingProgress.expectedTotalBytes!
-                                      : null,
-                                ),
-                              );
-                            },
-                            errorBuilder: (context, error, stackTrace) {
-                              return Container(
-                                color: Colors.grey.shade200,
-                                child: const Center(
-                                  child: Icon(Icons.broken_image, color: Colors.grey),
-                                ),
-                              );
-                            },
                           )
                         : Container(color: Colors.grey.shade200),
                   ),
@@ -76,7 +57,7 @@ class NotesPage extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          note.date, 
+                          "${note.date.year}-${note.date.month.toString().padLeft(2, '0')}-${note.date.day.toString().padLeft(2, '0')}", 
                           style: const TextStyle(color: Colors.grey, fontSize: 12),
                         ),
                       ],
