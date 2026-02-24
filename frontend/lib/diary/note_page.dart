@@ -1,72 +1,63 @@
 import 'package:flutter/material.dart';
+import 'note.dart';
 
-class NotePage extends StatefulWidget {
-  const NotePage({super.key});
+class NotePage extends StatelessWidget {
+  final Note note;
 
-  @override
-  State<NotePage> createState() => _NotePageState();
-}
-
-class _NotePageState extends State<NotePage> {
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _contentController = TextEditingController();
-
-  @override
-  void dispose() {
-    _titleController.dispose();
-    _contentController.dispose();
-    super.dispose();
-  }
+  const NotePage({super.key, required this.note});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Nuova Nota'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.check),
-            onPressed: () {
-              final titolo = _titleController.text;
-              final contenuto = _contentController.text;
-              Navigator.pop(context, {
-                'title': titolo,
-                'content': contenuto,
-              });
-            },
-          ),
-        ],
+        title: Text(note.title),
       ),
-      body: Padding(
+      body: ListView.builder(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: _titleController,
-              decoration: const InputDecoration(
-                hintText: 'Titolo',
-                border: InputBorder.none,
-              ),
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const Divider(),
-            Expanded(
-              child: TextField(
-                controller: _contentController,
-                decoration: const InputDecoration(
-                  hintText: 'Inizia a scrivere...',
-                  border: InputBorder.none,
+        itemCount: note.blocks.length,
+        itemBuilder: (context, index) {
+          final block = note.blocks[index];
+          
+          return switch (block) {
+            TextBlock() => Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: Text(
+                  block.text,
+                  style: const TextStyle(fontSize: 16),
                 ),
-                maxLines: null,
-                expands: true,
-                keyboardType: TextInputType.multiline,
               ),
-            ),
-          ],
-        ),
+            ImageBlock() => Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Image.network(
+                    block.imageUrl,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                              : null,
+                        ),
+                      );
+                    },
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        color: Colors.grey.shade200,
+                        child: const Center(
+                          child: Icon(Icons.broken_image, color: Colors.grey),
+                        ),
+                      );
+                    },
+                  )
+                ),
+              ),
+          };
+        },
       ),
     );
   }

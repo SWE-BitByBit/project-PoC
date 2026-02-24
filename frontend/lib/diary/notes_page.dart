@@ -2,15 +2,8 @@ import 'package:flutter/material.dart';
 import 'note.dart'; 
 import 'note_page.dart';
 
-class NotesPage extends StatefulWidget {
+class NotesPage extends StatelessWidget {
   const NotesPage({super.key});
-
-  @override
-  State<NotesPage> createState() => _NotesPageState();
-}
-
-class _NotesPageState extends State<NotesPage> {
-  List<dynamic> currentNotes = notes; 
 
   @override
   Widget build(BuildContext context) {
@@ -25,38 +18,73 @@ class _NotesPageState extends State<NotesPage> {
           crossAxisSpacing: 8.0,
           mainAxisSpacing: 8.0,
         ),
-        itemCount: currentNotes.length,
+        itemCount: notes.length,
         itemBuilder: (context, index) {
-          final note = currentNotes[index];
+          final note = notes[index];
+          final coverImage = note.blocks.whereType<ImageBlock>().firstOrNull;
+
           return Card(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
+            clipBehavior: Clip.antiAlias,
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => NotePage(note: note)),
+                );
+              },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    note.name, 
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
+                  Expanded(
+                    child: coverImage != null
+                        ? Image.network(
+                            coverImage.imageUrl,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  value: loadingProgress.expectedTotalBytes != null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!
+                                      : null,
+                                ),
+                              );
+                            },
+                            errorBuilder: (context, error, stackTrace) {
+                              return Container(
+                                color: Colors.grey.shade200,
+                                child: const Center(
+                                  child: Icon(Icons.broken_image, color: Colors.grey),
+                                ),
+                              );
+                            },
+                          )
+                        : Container(color: Colors.grey.shade200),
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    note.date, 
-                    style: const TextStyle(color: Colors.grey, fontSize: 12),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          note.title, 
+                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          note.date, 
+                          style: const TextStyle(color: Colors.grey, fontSize: 12),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
-          );
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () async {
-          final result = await Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const NotePage()),
           );
         },
       ),
