@@ -1,11 +1,11 @@
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/diary/notes_page.dart';
+import 'package:flutter_application_1/emergency/emergency_page.dart';
 import 'config/dependencies.dart';
-
 import 'chatbot/chatbot_page.dart';
 import 'ui/trusted_contacts/view_model/view_model_trusted_contacts.dart';
 import 'auth/auth_page.dart';
-
 import 'package:flutter_application_1/ui/trusted_contacts/trusted_contacts_page.dart';
 
 void main() {
@@ -85,9 +85,19 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               },
             ),
-
             const SizedBox(height: 20),
-
+            ElevatedButton(
+              child: const Text("Vai alle note"),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const NotesPage(),
+                  )
+                );
+              },
+            ),
+            const SizedBox(height: 20),
             ElevatedButton(
               child: const Text("Vai al Chatbot"),
               onPressed: () {
@@ -99,7 +109,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               },
             ),
-
           ],
         ),
       ),
