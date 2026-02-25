@@ -34,7 +34,7 @@ class AwsDynamoS3Api:
 
     def add_note(self, event):
         body = json.loads(event["body"])
-        user_email = event["requestContext"]["authorizer"]["claims"]["email"]
+        user_id = event["requestContext"]["authorizer"]["jwt"]["claims"]["sub"]
         message = body.get('message')
         file_name = body.get('fileName')
 
@@ -46,17 +46,18 @@ class AwsDynamoS3Api:
 
         note_id = str(uuid4())
         item = {
-            "user_email": user_email,
-            "id": note_id,
+            "user_id": user_id,
+            "note_id": note_id,
             "created_at": datetime.now(timezone.utc).isoformat()
         }
         
         if message:
             item["message"] = message
+        
         upload_url = None
         
         if file_name:
-            s3_key = f"{user_email}/{note_id}/{file_name}"
+            s3_key = f"{user_id}/{note_id}/{file_name}"
             item.update({
                 "s3Key": s3_key,
                 "bucketName": os.environ["BUCKET_NAME"],
@@ -76,16 +77,16 @@ class AwsDynamoS3Api:
         return self.response(201, response_body)
 
     def list_notes(self, event):
-        user_email = event["requestContext"]["authorizer"]["claims"]["email"]
+        user_id = event["requestContext"]["authorizer"]["jwt"]["claims"]["sub"]
         result = self.db_table.query(
-            KeyConditionExpression=Key("user_email").eq(user_email)
+            KeyConditionExpression=Key("user_email").eq(user_id)
         )
 
         notes = []
 
         for item in result.get("Items", []):
             note = {
-                "id": item["id"],
+                "id": item["note_id"],
                 "message": item.get("message", ""),
                 "created_at": item["created_at"]
             }

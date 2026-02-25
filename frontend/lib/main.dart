@@ -1,10 +1,20 @@
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'config/dependencies.dart';
+
 import 'chatbot/chatbot_page.dart';
-import 'package:flutter_application_1/emergency/emergency_page.dart';
+import 'ui/trusted_contacts/view_model/view_model_trusted_contacts.dart';
 import 'auth/auth_page.dart';
 
+import 'package:flutter_application_1/ui/trusted_contacts/trusted_contacts_page.dart';
+
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: appProviders,
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -66,10 +76,11 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               child: const Text("Vai ai contatti di emergenza"),
               onPressed: () {
+                final viewModel = context.read<ViewModelTrustedContacts>();
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const EmergencyPage(),
+                    builder: (context) => EmergencyPage(viewModel: viewModel),
                   )
                 );
               },

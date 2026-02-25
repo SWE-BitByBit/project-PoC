@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../../data/model/trusted_contact_model.dart';
+import '../../auth/authentication_service.dart';
 
 class TrustedContactApi {
 
@@ -11,10 +12,16 @@ class TrustedContactApi {
   TrustedContactApi(this.baseUrl);
 
   Future<List<TrustedContactModel>> fetchContacts() async {
+    final user = AuthenticationService.instance.getCurrentUser();
+
+    if (user == null) throw Exception("Utente non autenticato");
+
+
     final response = await http.get(
         Uri.parse('$baseUrl/contacts'),
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${user.accessToken}',
         },
       );
     
@@ -30,16 +37,20 @@ class TrustedContactApi {
 
       return contacts;
     } else {
-      throw Exception('Failed to load album');
+      throw Exception('Failed to load trusted contacts');
     }
   }
 
 
   Future<TrustedContactModel> createContact(String name, String email) async {
+    final user = AuthenticationService.instance.getCurrentUser();
+    if (user == null) throw Exception("Utente non autenticato");
+
     final response = await http.post(
       Uri.parse('$baseUrl/contacts'),
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${user.accessToken}',
       },
       body: jsonEncode(<String,String>{
         'name': name,
@@ -55,8 +66,14 @@ class TrustedContactApi {
   }
 
   Future<void> deleteContact(String id) async {
+    final user = AuthenticationService.instance.getCurrentUser();
+    if (user == null) throw Exception("Utente non autenticato");
+
     final response = await http.delete(
-      Uri.parse('$baseUrl/contacts/$id')
+      Uri.parse('$baseUrl/contacts/$id'),
+      headers: {
+        'Authorization': 'Bearer ${user.accessToken}',
+      },
     );
 
     if (response.statusCode != 200) {
