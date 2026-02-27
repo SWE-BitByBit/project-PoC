@@ -16,7 +16,6 @@ class TrustedContactApi {
 
     if (user == null) throw Exception("Utente non autenticato");
 
-
     final response = await http.get(
         Uri.parse('$baseUrl/contacts'),
         headers: {
