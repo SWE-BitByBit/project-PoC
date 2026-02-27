@@ -24,7 +24,7 @@ class TrustedContactModel extends TrustedContact {
 
   Map<String, dynamic> toJson() {
     return {
-      'contact_id':contactId,
+      'contact_id': contactId,
       'name': name,
       'email': email
     };
