@@ -42,7 +42,26 @@ class NoteApi {
   }
 
   Future<NoteModel> createNote(String text, String image) async {
+    final user = AuthenticationService.instance.getCurrentUser();
+    if (user == null) throw Exception("Utente non autenticato");
 
+    final response = await http.post(
+      Uri.parse('$baseUrl/notes'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${user.accessToken}',
+      },
+      body: jsonEncode(<String,String>{
+        'message': text,
+        'fileName': image,
+      })
+    );
+
+    if (response.statusCode != 201) {
+      throw Exception('Failed to create note');
+    }
+
+    return NoteModel.fromJson(jsonDecode(response.body));
   }
 
 }

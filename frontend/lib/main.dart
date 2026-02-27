@@ -1,6 +1,6 @@
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/diary/notes_preview_page.dart';
+import 'package:flutter_application_1/ui/note/notes_preview_page.dart';
 import 'config/dependencies.dart';
 import 'chatbot/chatbot_page.dart';
 import 'ui/trusted_contacts/view_model/view_model_trusted_contacts.dart';

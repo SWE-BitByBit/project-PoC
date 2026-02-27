@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'note.dart';
-import 'app_network_image.dart';
+import '../../diary/note.dart';
+import '../../diary/app_network_image.dart';
 
 class NotePage extends StatelessWidget {
   final Note note;

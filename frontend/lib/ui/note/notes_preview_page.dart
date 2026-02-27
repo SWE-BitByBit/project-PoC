@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'note.dart'; 
+import '../../diary/note.dart'; 
 import 'note_detail_page.dart';
-import 'app_network_image.dart';
+import '../../diary/app_network_image.dart';
+
+import 'package:flutter/widget_previews.dart';
 
 class NotesPage extends StatelessWidget {
+  @Preview(name: 'Constructor preview')
   const NotesPage({super.key});
 
   @override
@@ -49,16 +52,12 @@ class NotesPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          note.title, 
-                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
                         const SizedBox(height: 4),
-                        Text(
-                          "${note.date.year}-${note.date.month.toString().padLeft(2, '0')}-${note.date.day.toString().padLeft(2, '0')}", 
-                          style: const TextStyle(color: Colors.grey, fontSize: 12),
+                        Center(
+                          child: Text(
+                            "${note.date.year}-${note.date.month.toString().padLeft(2, '0')}-${note.date.day.toString().padLeft(2, '0')}", 
+                            style: const TextStyle(color: Colors.grey, fontSize: 12),
+                          )
                         ),
                       ],
                     ),
@@ -69,6 +68,26 @@ class NotesPage extends StatelessWidget {
           );
         },
       ),
+      bottomNavigationBar: BottomNotesBar(),
+    );
+  }
+}
+
+class BottomNotesBar extends StatelessWidget {
+
+  const BottomNotesBar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BottomAppBar(
+      child: Center(
+        child: ElevatedButton.icon(
+          icon: const Icon(Icons.add),
+          label: const Text('Aggiungi nota'),
+          iconAlignment: IconAlignment.start,
+          onPressed: () {},
+        )
+      )
     );
   }
 }
