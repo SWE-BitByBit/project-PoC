@@ -2,8 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import '../../data/model/trusted_contact_model.dart';
+//import '../../data/model/trusted_contact_model.dart';
 import '../../auth/authentication_service.dart';
+import '../../domain/trusted_contact.dart';
 
 class TrustedContactApi {
 
@@ -11,7 +12,7 @@ class TrustedContactApi {
 
   TrustedContactApi(this.baseUrl);
 
-  Future<List<TrustedContactModel>> fetchContacts() async {
+  Future<List<TrustedContact>> fetchContacts() async {
     final user = AuthenticationService.instance.getCurrentUser();
 
     if (user == null) throw Exception("Utente non autenticato");
@@ -27,10 +28,10 @@ class TrustedContactApi {
     if (response.statusCode == 200) {
       final List<dynamic> decoded = jsonDecode(response.body);
 
-      final List<TrustedContactModel> contacts = [];
+      final List<TrustedContact> contacts = [];
 
       for (var item in decoded) {
-        final contact = TrustedContactModel.fromJson(item);
+        final contact = TrustedContact.fromJson(item);
         contacts.add(contact);
       }
 
@@ -41,7 +42,7 @@ class TrustedContactApi {
   }
 
 
-  Future<TrustedContactModel> createContact(String name, String email) async {
+  Future<TrustedContact> createContact(String name, String email) async {
     final user = AuthenticationService.instance.getCurrentUser();
     if (user == null) throw Exception("Utente non autenticato");
 
@@ -61,7 +62,7 @@ class TrustedContactApi {
       throw Exception('Failed to create contact');
     }
 
-    return TrustedContactModel.fromJson(jsonDecode(response.body));
+    return TrustedContact.fromJson(jsonDecode(response.body));
   }
 
   Future<void> deleteContact(String id) async {

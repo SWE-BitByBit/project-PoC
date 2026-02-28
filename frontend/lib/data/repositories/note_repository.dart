@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import '../../domain/note.dart';
 import '../../data/services/note_api.dart';
 
@@ -12,7 +14,7 @@ class NoteRepository {
     return _api.fetchNotes();
   }
 
-  Future<Note> createNote(String text, String image) {
+  Future<Note> createNote(String text, File image) {
     return _api.createNote(text, image);
   }
 }

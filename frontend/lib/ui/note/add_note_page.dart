@@ -2,7 +2,6 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widget_previews.dart';
-import 'dart:io';
 
 class AddNotePage extends StatefulWidget{
   
@@ -29,16 +28,10 @@ class _AddNotePageState extends State<AddNotePage> {
   }
 
   Future<void> _saveNote() async {
-    final note = Note(
-      text: _controller.text,
-      imagePath: _selectedImage?.path,
-      createdAt: DateTime.now(),
-    );
 
-    final box = await Hive.openBox('notes');
-    await box.add(note);
+    //viewModel.addNote(text, File(_selectedImage.path));
+    // Chiamata per salvare la nota alla funzione del MV
 
-    Navigator.pop(context);
   }
   
   @override
@@ -50,11 +43,8 @@ class _AddNotePageState extends State<AddNotePage> {
         centerTitle: true,
         actions: [ 
           IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-              _getFromGallery();
-            },
-            icon: Icon(Icons.add_a_photo),
+            icon: const Icon(Icons.add_a_photo),
+            onPressed: _getFromGallery,
           ),
           IconButton(
             icon: const Icon(Icons.save),
@@ -81,14 +71,11 @@ class _AddNotePageState extends State<AddNotePage> {
             _selectedImage == null
                 ? const Text(
                     'No Media',
-                    style: TextStyle(fontSize: 18, color: Colors.grey),
                   )
                 : ClipRRect(
                     borderRadius: BorderRadius.circular(12),
-                    child: Image.file(
-                      File(_selectedImage!.path),
-                      height: 150,
-                      fit: BoxFit.cover,
+                    child: Text(
+                      _selectedImage!.path
                     ),
                   ),
           ],
