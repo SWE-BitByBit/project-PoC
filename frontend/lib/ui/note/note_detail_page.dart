@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../diary/note.dart';
-import '../../diary/app_network_image.dart';
+
+import '../../domain/note.dart';
 
 class NotePage extends StatelessWidget {
   final Note note;
@@ -9,36 +9,38 @@ class NotePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final formattedDate =
+        "${note.noteCreatedTime.day.toString().padLeft(2, '0')}/"
+        "${note.noteCreatedTime.month.toString().padLeft(2, '0')}/"
+        "${note.noteCreatedTime.year}";
+    
     return Scaffold(
-      appBar: AppBar(
-        title: Text(note.title),
-      ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(16.0),
-        itemCount: note.blocks.length,
-        itemBuilder: (context, index) {
-          final block = note.blocks[index];
-          
-          return switch (block) {
-            TextBlock(:final text) => Padding(
-                padding: const EdgeInsets.only(bottom: 16.0),
-                child: Text(
-                  text,
-                  style: const TextStyle(fontSize: 16),
-                ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              formattedDate,
+              style: const TextStyle(
+                color: Colors.grey,
+                fontSize: 14,
               ),
-            ImageBlock(:final imageUrl) => Padding(
-                padding: const EdgeInsets.only(bottom: 16.0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: AppNetworkImage(
-                    imageUrl: imageUrl,
-                    width: double.infinity,
-                  ),
-                ),
+            ),
+            Text(
+              note.noteText,
+              style: const TextStyle(fontSize: 16),
+            ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.file(
+                note.image,
+                width: double.infinity,
+                fit: BoxFit.cover,
               ),
-          };
-        },
+            ),
+          ],
+        )
       ),
     );
   }

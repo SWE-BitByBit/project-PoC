@@ -1,12 +1,13 @@
-
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widget_previews.dart';
+import 'dart:io';
+
+import 'view_model/view_model_notes.dart';
 
 class AddNotePage extends StatefulWidget{
-  
-  @Preview(name: 'Preview add note page')
-  const AddNotePage({super.key});
+  const AddNotePage({super.key, required this.viewModel});
+
+  final ViewModelNotes viewModel;
 
   @override
   State<AddNotePage> createState() => _AddNotePageState();
@@ -15,6 +16,8 @@ class AddNotePage extends StatefulWidget{
 class _AddNotePageState extends State<AddNotePage> {
 
   final ImagePicker _imagePicker = ImagePicker();
+  final _textController = TextEditingController();
+
   XFile? _selectedImage;
 
   Future _getFromGallery() async {
@@ -29,9 +32,22 @@ class _AddNotePageState extends State<AddNotePage> {
 
   Future<void> _saveNote() async {
 
-    //viewModel.addNote(text, File(_selectedImage.path));
-    // Chiamata per salvare la nota alla funzione del MV
+    final text = _textController.text.trim();
 
+    if (text.isEmpty || _selectedImage == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Testo o immagine mancanti")),
+      );
+      return;
+    }
+
+    await widget.viewModel.addNote(
+      text,
+      File(_selectedImage!.path),
+    );
+
+    if (!mounted) return;
+    Navigator.pop(context);
   }
   
   @override
@@ -58,26 +74,23 @@ class _AddNotePageState extends State<AddNotePage> {
           children: [
             Expanded(
               child: TextField(
+                controller: _textController,
                 expands: true,
                 maxLines: null,
-                textAlignVertical: TextAlignVertical.top,
                 decoration: const InputDecoration(
                   hintText: 'Scrivi qui la tua nota...',
                   border: OutlineInputBorder(),
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
             _selectedImage == null
                 ? const Text(
                     'No Media',
                   )
-                : ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: Text(
+                : Text(
                       _selectedImage!.path
                     ),
-                  ),
           ],
         ),
       ),

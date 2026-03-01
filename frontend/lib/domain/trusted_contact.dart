@@ -10,18 +10,11 @@ class TrustedContact {
   });
 
   factory TrustedContact.fromJson(Map<String, dynamic> json) {
-    return switch (json) {
-      {
-        'contact_id': String contactId,
-        'name': String name,
-        'email': String email
-      } => TrustedContact(
-        contactId: contactId,
-        name: name,
-        email: email
-      ),
-      _ => throw const FormatException('Failed to load contact from json.'), 
-    };
+    return TrustedContact(
+      contactId: json['contact_id'],
+      name: json['name'],
+      email: json['email']
+    );
   }
 
   Map<String, dynamic> toJson() {

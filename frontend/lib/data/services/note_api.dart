@@ -53,8 +53,8 @@ class NoteApi {
 
       for (var item in decoded) {
         final file = await _urlToFile(item['presigned_url']);
-        final contact = Note.fromJson(item, file);
-        notes.add(contact);
+        final note = Note.fromJson(item, file);
+        notes.add(note);
       }
 
       return notes;
@@ -76,13 +76,15 @@ class NoteApi {
       },
       body: jsonEncode(<String,String>{
         'message': text,
-        'fileName': image.path,
+        'fileName': image.path.split('/').last,
       })
     );
 
     if (response.statusCode != 201) {
       throw Exception('Failed to create note');
     }
+
+    print(response);
 
     final presignedUrl = jsonDecode(response.body)['presigned_url'];
 

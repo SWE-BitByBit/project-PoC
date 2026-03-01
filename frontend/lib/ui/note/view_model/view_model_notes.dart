@@ -4,7 +4,7 @@ import 'dart:io';
 import '../../../data/repositories/note_repository.dart';
 import '../../../domain/note.dart';
 
-class ViewModelNotes  extends ChangeNotifier {
+class ViewModelNotes extends ChangeNotifier {
 
   ViewModelNotes({
     required NoteRepository noteRepository,
@@ -18,7 +18,6 @@ class ViewModelNotes  extends ChangeNotifier {
   List<Note> get notes => _notes;
 
   Future<void> _load() async {
-
     final fetched = await _repository.fetchNotes();
     _notes.clear();
     _notes.addAll(fetched);
@@ -26,7 +25,6 @@ class ViewModelNotes  extends ChangeNotifier {
   }
 
   Future<void> addNote(String text, File image) async {
-    
     final created = await _repository.createNote(text, image);
     _notes.insert(0, created);
     notifyListeners();
