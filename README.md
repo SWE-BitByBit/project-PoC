@@ -4,7 +4,30 @@ Proof of Concept per il capitolato C4 - L’ app che Protegge e Trasforma - del 
 
 La documentazione completa relativa PoC si può consultare alla [Wiki](https://github.com/SWE-BitByBit/project-PoC/wiki) della presente repository.
 
-## Setup 
+## Esecuzione test backend
+
+I test sono scritti utilizzando **pytest** e **moto** per simulare i servizi AWS (DynamoDB) in locale.  
+Non è necessario avere un account AWS attivo per eseguirli.
+
+1. Posizionarsi nella cartella backend
+```bash
+cd backend
+```
+2. Creare e attivare l’ambiente virtuale (solo la prima volta)
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+3. Installare le dipendenze
+```bash
+pip install -r requirements.txt
+```
+4. Eseguire i test
+```bash
+PYTHONPATH=. pytest -v
+```
+
+## Setup Flutter 
 
 1. Installare Flutter seguendo la **guida ufficiale**
 

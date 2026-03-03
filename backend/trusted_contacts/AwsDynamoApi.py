@@ -67,10 +67,10 @@ class AwsDynamoApi:
             self.table.delete_item(
                 Key={"user_id": event["requestContext"]["authorizer"]["jwt"]["claims"]["sub"], "contact_id": contact_id}
             )
-            return self.response(200, {"msg": "Deleted"})
+            return self.response(200, {"msg": "Item deleted"})
         
         except KeyError:
-            return self.response(404, {"msg": "Not found"})
+            return self.response(404, {"msg": "Error, item haven't found"})
     
     def list_contacts(self, event):
         response = self.table.query(

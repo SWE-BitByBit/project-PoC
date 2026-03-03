@@ -8,4 +8,20 @@ class TrustedContact {
     required this.name,
     required this.email
   });
+
+  factory TrustedContact.fromJson(Map<String, dynamic> json) {
+    return TrustedContact(
+      contactId: json['contact_id'],
+      name: json['name'],
+      email: json['email']
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'contact_id': contactId,
+      'name': name,
+      'email': email
+    };
+  }
 }

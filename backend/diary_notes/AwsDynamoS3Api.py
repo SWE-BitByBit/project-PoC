@@ -71,22 +71,25 @@ class AwsDynamoS3Api:
                 300
             )
         self.db_table.put_item(Item=item)
-        response_body = {"note_id": note_id}
+        response_body = {
+            "note_id": note_id,
+            "message": message,
+            "created_at": item["created_at"],
+        }
         if upload_url:
             response_body["presigned_url"] = upload_url
         return self.response(201, response_body)
 
     def list_notes(self, event):
-        user_id = event["requestContext"]["authorizer"]["jwt"]["claims"]["sub"]
         result = self.db_table.query(
-            KeyConditionExpression=Key("user_email").eq(user_id)
+            KeyConditionExpression=Key("user_id").eq(event["requestContext"]["authorizer"]["jwt"]["claims"]["sub"])
         )
 
         notes = []
-
+        
         for item in result.get("Items", []):
             note = {
-                "id": item["note_id"],
+                "note_id": item["note_id"],
                 "message": item.get("message", ""),
                 "created_at": item["created_at"]
             }
@@ -97,9 +100,8 @@ class AwsDynamoS3Api:
                         "Bucket": os.environ["BUCKET_NAME"],
                         "Key": item["s3Key"],
                     },
-                    300)
+                    500
+                )
             notes.append(note)
 
         return self.response(200, notes)
-
-    

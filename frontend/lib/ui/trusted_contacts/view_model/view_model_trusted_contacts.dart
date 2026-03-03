@@ -16,8 +16,7 @@ class ViewModelTrustedContacts extends ChangeNotifier{
   List<TrustedContact> get trustedContact => _trustedContacts;
 
   Future<void> _load() async {
-    final contactResult = await _trustedContactRepository.fetchContacts();
-    _trustedContacts = contactResult;
+    _trustedContacts = await _trustedContactRepository.fetchContacts();
     notifyListeners();
   }
 

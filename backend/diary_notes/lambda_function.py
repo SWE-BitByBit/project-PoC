@@ -17,3 +17,8 @@ def lambda_handler(event, context):
         return awsClient.add_note(event)
     elif route == "GET /notes":
         return awsClient.list_notes(event)
+
+    return {
+        "statusCode": 400,
+        "body": "Unsupported route"
+    }
