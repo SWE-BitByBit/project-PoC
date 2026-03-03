@@ -1,10 +1,12 @@
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/diary/notes_page.dart';
-import 'package:flutter_application_1/emergency/emergency_page.dart';
+
+
+import 'package:flutter_application_1/ui/note/notes_preview_page.dart';
 import 'config/dependencies.dart';
 import 'chatbot/chatbot_page.dart';
 import 'ui/trusted_contacts/view_model/view_model_trusted_contacts.dart';
+import 'package:flutter_application_1/ui/note/view_model/view_model_notes.dart';
 import 'auth/auth_page.dart';
 import 'package:flutter_application_1/ui/trusted_contacts/trusted_contacts_page.dart';
 
@@ -54,10 +56,6 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.blue,
-              ),
               child: const Text("Vai all'autenticazione"),
               onPressed: () {
                 Navigator.push(
@@ -70,10 +68,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
-                foregroundColor: Colors.white,
-              ),
               child: const Text("Vai ai contatti di emergenza"),
               onPressed: () {
                 final viewModel = context.read<ViewModelTrustedContacts>();
@@ -89,10 +83,11 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
               child: const Text("Vai alle note"),
               onPressed: () {
+                final viewModelNotes = context.read<ViewModelNotes>();
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const NotesPage(),
+                    builder: (context) => NotesPage(viewModel: viewModelNotes),
                   )
                 );
               },
