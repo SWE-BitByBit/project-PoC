@@ -54,6 +54,7 @@ https://developer.android.com/studio/run/managing-avds?hl=it
 flutter emulators && flutter devices
 ```
 Il nome da usare nello step seguente è quello che si ha dato all'emulatore in Android Studio, che dovrebbe comparire dopo aver eseguito il comando.
+
 7. **Eseguire** l'app sull'emulatore
 ```sh
 flutter emulators --launch <Nome emulatore completo>
