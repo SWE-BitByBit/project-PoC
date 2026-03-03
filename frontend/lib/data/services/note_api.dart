@@ -16,20 +16,15 @@ class NoteApi {
   final String baseUrl;
 
   Future<File> _urlToFile(String imageUrl) async {
-    // generate random number.
+
     var rng = math.Random();
-    // get temporary directory of device.
     Directory tempDir = await getTemporaryDirectory();
-    // get temporary path from temporary directory.
     String tempPath = tempDir.path;
-    // create a new file in temporary path with random file name.
-    File file = File('$tempPath/${rng.nextInt(100)}.png');
-    // call http.get method and pass imageurl into it to get response.
+    File file = File('$tempPath/${rng.nextInt(100)}.jpg');
     http.Response response = await http.get(Uri.parse(imageUrl));
-    // write bodybytes received in response to file.
+
     await file.writeAsBytes(response.bodyBytes);
-    // now return the file which is created with random name in
-    // temporary directory and image bytes from response is written to // that file.
+    
     return file;
   }
 
@@ -45,6 +40,8 @@ class NoteApi {
           'Authorization': 'Bearer ${user.accessToken}',
         },
     );
+
+    print(response.body);
 
     if (response.statusCode == 200) {
       final List<dynamic> decoded = jsonDecode(response.body);
@@ -90,7 +87,7 @@ class NoteApi {
 
     await http.put(
       Uri.parse(presignedUrl),
-      headers: {'Content-Type': 'application/octet-stream'},
+      headers: {'Content-Type': 'image/jpg'},
       body: await image.readAsBytes(),
     );
 
