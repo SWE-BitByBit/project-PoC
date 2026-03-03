@@ -11,7 +11,7 @@ class Chatbot {
 
   Chatbot();
 
-  void sendUserMessage(String message, Function callback) async {
+  Future<String> sendMessage(String message) async {
     Uri uri = Uri(
       scheme: 'http',
       host: ENDPOINT_HOST,
@@ -36,12 +36,12 @@ class Chatbot {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        callback(data['response']);
+        return data['response'] ?? '';
       } else {
-        callback('Error: ${response.statusCode}');
+        return 'Error: ${response.statusCode}';
       }
     } catch (e) {
-      callback('Exception: $e');
+      return 'Exception: $e';
     }
   }
 }
