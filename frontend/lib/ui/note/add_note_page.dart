@@ -18,14 +18,14 @@ class _AddNotePageState extends State<AddNotePage> {
   final ImagePicker _imagePicker = ImagePicker();
   final _textController = TextEditingController();
 
-  XFile? _selectedImage;
+  File? _selectedImage;
 
   Future _getFromGallery() async {
-    final XFile? img = await _imagePicker.pickImage(source: ImageSource.gallery);
+    final img = await _imagePicker.pickImage(source: ImageSource.gallery);
 
     if (img != null) {
       setState(() {
-        _selectedImage = img;
+        _selectedImage = File(img.path);
       });
     }
   }

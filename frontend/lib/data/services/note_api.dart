@@ -41,8 +41,6 @@ class NoteApi {
         },
     );
 
-    print(response.body);
-
     if (response.statusCode == 200) {
       final List<dynamic> decoded = jsonDecode(response.body);
 
@@ -65,7 +63,7 @@ class NoteApi {
     final user = AuthenticationService.instance.getCurrentUser();
     if (user == null) throw Exception("Utente non autenticato");
 
-    final response = await http.post(
+    final response = await http.put(
       Uri.parse('$baseUrl/notes'),
       headers: {
         'Content-Type': 'application/json',
@@ -80,8 +78,6 @@ class NoteApi {
     if (response.statusCode != 201) {
       throw Exception('Failed to create note');
     }
-
-    print(response);
 
     final presignedUrl = jsonDecode(response.body)['presigned_url'];
 
