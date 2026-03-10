@@ -28,8 +28,13 @@ PYTHONPATH=. pytest -v
 ```
 
 ## Setup ambiente 
+1. Crea un file `.env` nella cartella `frontend/`
+   
+2. Copia `.env.example` in `.env`
 
-Copia `.env.example` in `.env` e sostituisci `API_BASE_URL` con l'endpoint API
+3. Sostituisci `API_BASE_URL` con l'endpoint
+ 
+4. Esegui `flutter pub get`
 
 ## Setup Flutter 
 
