@@ -1,6 +1,8 @@
 # Virtual environments
-venv/
-.env/
+backend/venv/
+backend/**/__pycache__/
+backend/**/*.pyc
+backend/**/.pytest_cache/
 
 # Python cache
 __pycache__/
@@ -8,3 +10,6 @@ __pycache__/
 
 # Pytest
 .pytest_cache/
+
+# variabili d'ambiente
+frontend/.env
