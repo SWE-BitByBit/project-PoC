@@ -27,6 +27,10 @@ pip install -r requirements.txt
 PYTHONPATH=. pytest -v
 ```
 
+## Setup ambiente 
+
+Copia `.env.example` in `.env` e sostituisci `API_BASE_URL` con l'endpoint API
+
 ## Setup Flutter 
 
 1. Installare Flutter seguendo la **guida ufficiale**

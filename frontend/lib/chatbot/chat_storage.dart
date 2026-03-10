@@ -1,8 +1,9 @@
 import 'chat_api.dart';
 import 'chat.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 class ChatStorage {
-  static const String ENDPOINT_API =
-      'https://ihnq91q2lk.execute-api.eu-north-1.amazonaws.com';
+  static final String ENDPOINT_API =
+      dotenv.env['API_BASE_URL'] ?? '';
   final ChatApi api = ChatApi(ENDPOINT_API);
 
   Future<Chat> createNewChat() async {

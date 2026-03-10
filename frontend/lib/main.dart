@@ -4,13 +4,15 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_application_1/ui/note/notes_preview_page.dart';
 import 'config/dependencies.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'chatbot/chatbot_page.dart';
 import 'ui/trusted_contacts/view_model/view_model_trusted_contacts.dart';
 import 'package:flutter_application_1/ui/note/view_model/view_model_notes.dart';
 import 'auth/auth_page.dart';
 import 'package:flutter_application_1/ui/trusted_contacts/trusted_contacts_page.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: ".env");
   runApp(
     MultiProvider(
       providers: appProviders,
